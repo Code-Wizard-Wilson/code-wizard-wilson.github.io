@@ -72,31 +72,34 @@ document.addEventListener('DOMContentLoaded', () => {
       linkText: 'View Notation on Peerlist ↗',
       linkUrl: 'https://peerlist.io/wilsonwizard'
     },
-    automation: {
+    fleetdaemon: {
       bg: '#f7f3e6',
       key: '4',
-      prompt: 'Doing it on Playwright? I will make it on Requests!',
+      prompt: 'fleetctl ingest --target=internal-api --workers=250 --tls=ja4',
       chips: [
         {
           bar: '#d98b1a',
           fill: '#fbecd2',
           ink: '#7a4b08',
-          title: 'Hidden Requests & TLS Fingerprinting',
-          sub: 'Reverse-engineered internal endpoints — 100x faster than headless browsers'
+          title: 'High-Volume Payload Streaming',
+          sub: '1.8M daily records processed on an 8GB VPS at 38ms median latency'
         },
         {
           bar: '#3b7be8',
           fill: '#dfe9fb',
           ink: '#1f4a94',
-          title: 'Cleanest Proxies & Captcha Solvers',
-          sub: 'Battle-tested residential/mobile proxy rotation & automated solver pipelines'
+          title: 'Stealth & Resilience Layer',
+          sub: 'Pooled residential proxy rotation with automated token renewal pipeline'
         }
       ],
-      stack: 'Python · Go · Requests / TLS · Solvers',
-      linkText: 'Discuss a Custom Task ↗',
+      stack: 'Go · Python · Redis · ClickHouse',
+      linkText: 'Discuss High-Scale Pipelines ↗',
       linkUrl: 'https://x.com/WilsonWizard'
     }
   };
+
+  // Alias for backward compatibility
+  projectStages.automation = projectStages.fleetdaemon;
 
   const stageEl = document.getElementById('project-stage');
   const tabs = document.querySelectorAll('.feature-tab');
@@ -192,10 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === '1') selectProject('tfinder', true);
     if (e.key === '2') selectProject('tenvilo', true);
     if (e.key === '3') selectProject('notation', true);
-    if (e.key === '4') selectProject('automation', true);
+    if (e.key === '4') selectProject('fleetdaemon', true);
   });
 
-  // Interactive Pipeline Board Pills (01 Requests, 02 Workers, 03 Products)
+  // Interactive Pipeline Board Pills (01 Ingestion, 02 Execution, 03 Delivery)
   const boardPills = document.querySelectorAll('.board-pill');
   const boardCols = document.querySelectorAll('.board-col');
 
@@ -229,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const workSection = document.getElementById('work');
   document.querySelectorAll('.board-col .event-chip').forEach((chip, idx) => {
     chip.addEventListener('click', () => {
-      const projMap = ['automation', 'automation', 'automation', 'automation', 'tfinder', 'notation'];
+      const projMap = ['fleetdaemon', 'fleetdaemon', 'fleetdaemon', 'fleetdaemon', 'tfinder', 'tenvilo'];
       selectProject(projMap[idx] || 'tfinder', true);
       if (workSection) {
         workSection.scrollIntoView({ behavior: 'smooth' });
