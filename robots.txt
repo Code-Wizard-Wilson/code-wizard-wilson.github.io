@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://code-wizard-wilson.github.io/sitemap.xml
