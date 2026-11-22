@@ -95,7 +95,11 @@
           </p>
 
           <div class="hero-actions">
-            <a href="https://x.com/WilsonWizard" target="_blank" rel="noopener noreferrer" class="btn-pill-dark">
+            <a href="#contact" class="btn-pill-dark">
+              <span>Start a project</span>
+              <span aria-hidden="true">→</span>
+            </a>
+            <a href="https://x.com/WilsonWizard" target="_blank" rel="noopener noreferrer" class="btn-pill-outline">
               <img src="assets/avatar.jpg" alt="" width="22" height="22" class="btn-avatar" />
               <span>Follow @WilsonWizard</span>
             </a>
@@ -285,6 +289,7 @@
               <!-- Left 5fr: Interactive Tabs (Clean keycaps 1-4, no extra icon clutter) -->
               <div class="feature-tablist" role="tablist" aria-label="Shipped products">
                 <button type="button" class="feature-tab active" data-proj="tfinder" role="tab" aria-selected="true">
+                  <span class="tab-indicator" aria-hidden="true"></span>
                   <span class="tab-top">
                     <kbd class="keycap">1</kbd>
                     <span class="tab-title">Tfinder — macOS Terminal Assistant</span>
@@ -292,9 +297,11 @@
                   <span class="tab-desc">
                     Describe what you want in plain English right in your terminal and get a verified shell command before it runs.
                   </span>
+                  <span class="tab-link">View on Peerlist →</span>
                 </button>
 
                 <button type="button" class="feature-tab" data-proj="tenvilo" role="tab" aria-selected="false">
+                  <span class="tab-indicator" aria-hidden="true"></span>
                   <span class="tab-top">
                     <kbd class="keycap">2</kbd>
                     <span class="tab-title">Tenvilo — Chrome Workspace Launcher</span>
@@ -302,9 +309,11 @@
                   <span class="tab-desc">
                     Group project tabs, localhost ports, and docs into switchable presets so you never drown in 50 open tabs.
                   </span>
+                  <span class="tab-link">View on Peerlist →</span>
                 </button>
 
                 <button type="button" class="feature-tab" data-proj="notation" role="tab" aria-selected="false">
+                  <span class="tab-indicator" aria-hidden="true"></span>
                   <span class="tab-top">
                     <kbd class="keycap">3</kbd>
                     <span class="tab-title">Notation — Connected Markdown Notes</span>
@@ -312,9 +321,11 @@
                   <span class="tab-desc">
                     A distraction-free writing app with slash commands, instant block formatting, and automatic [[wiki-links]].
                   </span>
+                  <span class="tab-link">View on Peerlist →</span>
                 </button>
 
                 <button type="button" class="feature-tab" data-proj="fleetdaemon" role="tab" aria-selected="false">
+                  <span class="tab-indicator" aria-hidden="true"></span>
                   <span class="tab-top">
                     <kbd class="keycap">4</kbd>
                     <span class="tab-title">FleetDaemon — High-Scale Ingestion Engine</span>
@@ -322,6 +333,7 @@
                   <span class="tab-desc">
                     Autonomous backend engine for high-frequency data extraction, streaming structured payloads directly into storage with zero DOM overhead.
                   </span>
+                  <span class="tab-link">View on Peerlist →</span>
                 </button>
               </div>
 
@@ -369,22 +381,29 @@
                 </div>
                 <div class="pillar-canvas" style="background-color:#f9efe8">
                   <div class="mini-card">
-                    <div class="mini-pill-head">From $1,500 · 48h PoC Available</div>
-                    <div class="mini-row">
-                      <span class="mini-dot" style="background:#d98b1a"></span>
-                      <span>Reverse-Engineered HTTP APIs</span>
-                      <span class="mini-status">Socket Speed</span>
+                    <div class="mini-card-header">
+                      <p class="mini-price">From $1,500</p>
+                      <p class="mini-badge">48h PoC Available</p>
                     </div>
-                    <div class="mini-row">
-                      <span class="mini-dot" style="background:#3b7be8"></span>
-                      <span>Residential Proxies &amp; Solvers</span>
-                      <span class="mini-status">Stealth</span>
+                    <div class="mini-rows">
+                      <div class="mini-row">
+                        <span class="mini-dot" style="background:#d98b1a"></span>
+                        <span class="mini-label">Reverse-Engineered HTTP APIs</span>
+                        <span class="mini-status">Socket Speed</span>
+                      </div>
+                      <div class="mini-row">
+                        <span class="mini-dot" style="background:#3b7be8"></span>
+                        <span class="mini-label">Residential Proxies &amp; Solvers</span>
+                        <span class="mini-status">Stealth</span>
+                      </div>
+                      <div class="mini-row">
+                        <span class="mini-dot" style="background:#2e9b5f"></span>
+                        <span class="mini-label">Telegram Alerting &amp; Monitoring</span>
+                        <span class="mini-status">Turnkey</span>
+                      </div>
                     </div>
-                    <div class="mini-row">
-                      <span class="mini-dot" style="background:#2e9b5f"></span>
-                      <span>Telegram Alerting &amp; Monitoring</span>
-                      <span class="mini-status">Turnkey</span>
-                    </div>
+                    <div class="mini-divider" aria-hidden="true"></div>
+                    <a href="#contact" class="mini-cta">Discuss this project →</a>
                   </div>
                 </div>
               </li>
@@ -402,22 +421,29 @@
                 </div>
                 <div class="pillar-canvas" style="background-color:#eef3fb">
                   <div class="mini-card">
-                    <div class="mini-pill-head">From $2,500 · 1–2 Weeks</div>
-                    <div class="mini-row">
-                      <span class="mini-dot" style="background:#3b7be8"></span>
-                      <span>Async REST &amp; WebSocket APIs</span>
-                      <span class="mini-status">Python / Go</span>
+                    <div class="mini-card-header">
+                      <p class="mini-price">From $2,500</p>
+                      <p class="mini-badge">1–2 Weeks</p>
                     </div>
-                    <div class="mini-row">
-                      <span class="mini-dot" style="background:#8b5cf6"></span>
-                      <span>LLM Integrations &amp; Structured JSON</span>
-                      <span class="mini-status">Reliable</span>
+                    <div class="mini-rows">
+                      <div class="mini-row">
+                        <span class="mini-dot" style="background:#3b7be8"></span>
+                        <span class="mini-label">Async REST &amp; WebSocket APIs</span>
+                        <span class="mini-status">Python / Go</span>
+                      </div>
+                      <div class="mini-row">
+                        <span class="mini-dot" style="background:#8b5cf6"></span>
+                        <span class="mini-label">LLM Integrations &amp; Structured JSON</span>
+                        <span class="mini-status">Reliable</span>
+                      </div>
+                      <div class="mini-row">
+                        <span class="mini-dot" style="background:#2e9b5f"></span>
+                        <span class="mini-label">Self-Contained CLI Binaries</span>
+                        <span class="mini-status">macOS / Linux</span>
+                      </div>
                     </div>
-                    <div class="mini-row">
-                      <span class="mini-dot" style="background:#2e9b5f"></span>
-                      <span>Self-Contained CLI Binaries</span>
-                      <span class="mini-status">macOS / Linux</span>
-                    </div>
+                    <div class="mini-divider" aria-hidden="true"></div>
+                    <a href="#contact" class="mini-cta">Discuss this project →</a>
                   </div>
                 </div>
               </li>
@@ -435,22 +461,29 @@
                 </div>
                 <div class="pillar-canvas" style="background-color:#eef6f1">
                   <div class="mini-card">
-                    <div class="mini-pill-head">From $1,200 · Shipped Fast</div>
-                    <div class="mini-row">
-                      <span class="mini-dot" style="background:#e8604c"></span>
-                      <span>Chrome Extensions (Manifest V3)</span>
-                      <span class="mini-status">Shipped</span>
+                    <div class="mini-card-header">
+                      <p class="mini-price">From $1,200</p>
+                      <p class="mini-badge">Shipped Fast</p>
                     </div>
-                    <div class="mini-row">
-                      <span class="mini-dot" style="background:#2e9b5f"></span>
-                      <span>React &amp; TypeScript Web Apps</span>
-                      <span class="mini-status">60fps</span>
+                    <div class="mini-rows">
+                      <div class="mini-row">
+                        <span class="mini-dot" style="background:#e8604c"></span>
+                        <span class="mini-label">Chrome Extensions (Manifest V3)</span>
+                        <span class="mini-status">Shipped</span>
+                      </div>
+                      <div class="mini-row">
+                        <span class="mini-dot" style="background:#2e9b5f"></span>
+                        <span class="mini-label">React &amp; TypeScript Web Apps</span>
+                        <span class="mini-status">60fps</span>
+                      </div>
+                      <div class="mini-row">
+                        <span class="mini-dot" style="background:#d98b1a"></span>
+                        <span class="mini-label">Keyboard-Driven Admin Dashboards</span>
+                        <span class="mini-status">Custom</span>
+                      </div>
                     </div>
-                    <div class="mini-row">
-                      <span class="mini-dot" style="background:#d98b1a"></span>
-                      <span>Keyboard-Driven Admin Dashboards</span>
-                      <span class="mini-status">Custom</span>
-                    </div>
+                    <div class="mini-divider" aria-hidden="true"></div>
+                    <a href="#contact" class="mini-cta">Discuss this project →</a>
                   </div>
                 </div>
               </li>
@@ -466,9 +499,9 @@
             <span class="node-dot left" aria-hidden="true"></span>
             <span class="node-dot right" aria-hidden="true"></span>
 
-            <img src="assets/avatar.jpg" alt="Wilson Wizard" width="64" height="64" class="cta-avatar" />
+            <img src="assets/avatar.jpg" alt="Wilson Wizard" width="60" height="60" class="cta-avatar" />
             <p class="section-kicker mono">GET IN TOUCH</p>
-            <h2 class="section-heading">Have a workflow to automate or a tool to build?</h2>
+            <h2 class="section-heading">Have a workflow to automate<br class="desktop-br" />or a tool to build?</h2>
             <p class="section-subtitle">
               DM me on X with your task—whether it’s a custom parser, a Telegram bot, or a full-stack product.
             </p>

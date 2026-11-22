@@ -2,133 +2,136 @@ document.addEventListener('DOMContentLoaded', () => {
   const projectStages = {
     tfinder: {
       bg: '#f9efe8',
-      key: '1',
-      prompt: 'tf "kill whatever is running on port 8080 and start api"',
-      chips: [
-        {
-          bar: '#e8604c',
-          fill: '#fce4de',
-          ink: '#962d1e',
-          title: 'Generated Shell Command',
-          sub: 'lsof -ti tcp:8080 | xargs kill -15 && go run ./cmd/server'
-        },
-        {
-          bar: '#2e9b5f',
-          fill: '#dff2e6',
-          ink: '#1d5e3a',
-          title: 'Pre-Execution Safety Check',
-          sub: 'AST verified in 14ms · Safe to execute [Enter / Esc]'
-        }
-      ],
-      stack: 'Go · Python · OpenAI SDK',
-      linkText: 'View Tfinder on Peerlist ↗',
+      title: 'tfinder — zsh',
+      prompt: '$',
+      cmd: 'tf "find files over 100MB changed this week"',
+      arrow: '→',
+      res: 'find . -type f -size +100M -mtime -7',
+      check: '✓',
+      verify: 'verified: read-only, no side effects',
+      caption: 'Plain English in, verified command out.',
+      captionColor: '#7c4a33',
       linkUrl: 'https://peerlist.io/wilsonwizard'
     },
     tenvilo: {
       bg: '#eef3fb',
-      key: '2',
-      prompt: 'Workspace: Payment Service Release (5 tabs)',
-      chips: [
-        {
-          bar: '#3b7be8',
-          fill: '#dfe9fb',
-          ink: '#1f4a94',
-          title: 'Instant Context Restore',
-          sub: 'localhost:3000, Swagger Docs & GitHub PR opened in 1 click'
-        },
-        {
-          bar: '#8b5cf6',
-          fill: '#ede7fb',
-          ink: '#4c2896',
-          title: 'Deep-Work Focus Mode',
-          sub: 'Social feeds & non-work domains paused while preset is active'
-        }
-      ],
-      stack: 'JavaScript · Chrome Manifest V3 · IndexedDB',
-      linkText: 'View Tenvilo on Peerlist ↗',
+      title: 'tenvilo — chrome workspace',
+      prompt: '$',
+      cmd: 'tenvilo switch "Payment Service Release"',
+      arrow: '→',
+      res: '5 tabs restored (localhost:3000, Swagger, PR #142)',
+      check: '✓',
+      verify: 'focus mode: non-work domains paused',
+      caption: 'One-click presets, zero tab clutter.',
+      captionColor: '#2b4c7e',
       linkUrl: 'https://peerlist.io/wilsonwizard'
     },
     notation: {
       bg: '#eef6f1',
-      key: '3',
-      prompt: '/notes/system-design.md',
-      chips: [
-        {
-          bar: '#2e9b5f',
-          fill: '#dff2e6',
-          ink: '#1d5e3a',
-          title: 'Automatic Graph Linking',
-          sub: 'Typing [[Worker Pool]] links related architecture notes'
-        },
-        {
-          bar: '#d98b1a',
-          fill: '#fbecd2',
-          ink: '#7a4b08',
-          title: 'Keyboard-First Block Editor',
-          sub: 'Instant slash commands & clean local Markdown export'
-        }
-      ],
-      stack: 'TypeScript · Python · Markdown AST',
-      linkText: 'View Notation on Peerlist ↗',
+      title: 'notation — system-design.md',
+      prompt: '>',
+      cmd: '/architecture/resilient-scraping.md',
+      arrow: '→',
+      res: 'linked 4 nodes: [[Worker Pools]], [[JA4 Matching]]',
+      check: '✓',
+      verify: 'markdown graph synced to local disk',
+      caption: 'Connected markdown notes, local-first.',
+      captionColor: '#225939',
       linkUrl: 'https://peerlist.io/wilsonwizard'
     },
     fleetdaemon: {
       bg: '#f7f3e6',
-      key: '4',
-      prompt: 'fleetctl ingest --target=internal-api --workers=250 --tls=ja4',
-      chips: [
-        {
-          bar: '#d98b1a',
-          fill: '#fbecd2',
-          ink: '#7a4b08',
-          title: 'High-Volume Payload Streaming',
-          sub: '1.8M daily records processed on an 8GB VPS at 38ms median latency'
-        },
-        {
-          bar: '#3b7be8',
-          fill: '#dfe9fb',
-          ink: '#1f4a94',
-          title: 'Stealth & Resilience Layer',
-          sub: 'Pooled residential proxy rotation with automated token renewal pipeline'
-        }
-      ],
-      stack: 'Go · Python · Redis · ClickHouse',
-      linkText: 'Discuss High-Scale Pipelines ↗',
+      title: 'fleetctl — status --live',
+      prompt: '$',
+      cmd: 'fleetctl ingest --workers=250 --target=api',
+      arrow: '→',
+      res: '1.8M payloads/day streamed · 38ms median',
+      check: '✓',
+      verify: '0 DOM overhead · auto proxy failover',
+      caption: 'Autonomous ingestion engine for production loads.',
+      captionColor: '#6d531a',
       linkUrl: 'https://x.com/WilsonWizard'
     }
   };
-
-  // Alias for backward compatibility
-  projectStages.automation = projectStages.fleetdaemon;
 
   const stageEl = document.getElementById('project-stage');
   const tabs = document.querySelectorAll('.feature-tab');
   let activeKey = null;
   let currentAnim = null;
 
-  // Mount persistent stage card once to avoid DOM destruction & layout thrashing
+  // Mount persistent terminal window
   if (stageEl) {
     stageEl.innerHTML = `
-      <div class="stage-card" id="stage-card">
-        <div class="stage-search-bar">
-          <kbd class="keycap" id="stage-key"></kbd>
-          <span class="mono" id="stage-prompt" style="font-size:12.5px;"></span>
+      <div class="terminal-window" id="terminal-window">
+        <div class="terminal-titlebar">
+          <div class="terminal-dots" aria-hidden="true">
+            <span class="tdot red"></span>
+            <span class="tdot yellow"></span>
+            <span class="tdot green"></span>
+          </div>
+          <div class="terminal-title" id="terminal-title">tfinder — zsh</div>
+          <div class="terminal-dots-balance" aria-hidden="true"></div>
         </div>
-        <div class="stage-rows" id="stage-rows"></div>
-        <div class="stage-link-row">
-          <span class="mono" id="stage-stack"></span>
-          <a href="#" target="_blank" rel="noopener noreferrer" class="stage-ext-link" id="stage-link"></a>
+        <div class="terminal-body">
+          <div class="term-row input-row">
+            <span class="term-prompt" id="term-prompt">$</span>
+            <span class="term-cmd" id="term-cmd"></span>
+          </div>
+          <div class="term-row output-row">
+            <span class="term-arrow" id="term-arrow">→</span>
+            <span class="term-res" id="term-res"></span>
+          </div>
+          <div class="term-row verify-row">
+            <span class="term-check" id="term-check">✓</span>
+            <span class="term-verify-text" id="term-verify"></span>
+          </div>
+          <div class="term-actions">
+            <button class="term-btn term-btn-primary" type="button" id="term-run-btn">Run</button>
+            <button class="term-btn term-btn-ghost" type="button" id="term-edit-btn">Edit</button>
+            <button class="term-btn term-btn-ghost" type="button" id="term-copy-btn">Copy</button>
+          </div>
         </div>
       </div>
+      <p class="terminal-caption" id="terminal-caption">Plain English in, verified command out.</p>
     `;
   }
 
-  const stageCard = document.getElementById('stage-card');
-  const stageKey = document.getElementById('stage-key');
-  const stagePrompt = document.getElementById('stage-prompt');
-  const stageRows = document.getElementById('stage-rows');
-  const stageStack = document.getElementById('stage-stack');
-  const stageLink = document.getElementById('stage-link');
+  const termWindow = document.getElementById('terminal-window');
+  const termTitle = document.getElementById('terminal-title');
+  const termPrompt = document.getElementById('term-prompt');
+  const termCmd = document.getElementById('term-cmd');
+  const termArrow = document.getElementById('term-arrow');
+  const termRes = document.getElementById('term-res');
+  const termCheck = document.getElementById('term-check');
+  const termVerify = document.getElementById('term-verify');
+  const termCaption = document.getElementById('terminal-caption');
+  const termCopyBtn = document.getElementById('term-copy-btn');
+  const termRunBtn = document.getElementById('term-run-btn');
+
+  if (termCopyBtn) {
+    termCopyBtn.addEventListener('click', () => {
+      const textToCopy = termRes ? termRes.textContent : '';
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(textToCopy);
+      }
+      termCopyBtn.textContent = 'Copied!';
+      setTimeout(() => {
+        termCopyBtn.textContent = 'Copy';
+      }, 1400);
+    });
+  }
+
+  if (termRunBtn) {
+    termRunBtn.addEventListener('click', () => {
+      termRunBtn.textContent = 'Running...';
+      setTimeout(() => {
+        termRunBtn.textContent = 'Done ✓';
+        setTimeout(() => {
+          termRunBtn.textContent = 'Run';
+        }, 1200);
+      }, 500);
+    });
+  }
 
   const selectProject = (key, animate = true) => {
     if (key === activeKey) return;
@@ -141,34 +144,30 @@ document.addEventListener('DOMContentLoaded', () => {
       tab.setAttribute('aria-selected', isMatch ? 'true' : 'false');
     });
 
-    if (!stageEl || !stageCard) return;
+    if (!stageEl || !termWindow) return;
     stageEl.style.backgroundColor = data.bg;
 
-    stageKey.textContent = data.key;
-    stagePrompt.textContent = data.prompt;
-    stageRows.innerHTML = data.chips
-      .map(
-        (c) => `
-        <div class="event-chip" style="--bar:${c.bar}; --fill:${c.fill}; --ink:${c.ink};">
-          <p class="chip-title">${c.title}</p>
-          <p class="chip-sub mono" style="font-size:11.5px;">${c.sub}</p>
-        </div>
-      `
-      )
-      .join('');
-    stageStack.textContent = data.stack;
-    stageLink.textContent = data.linkText;
-    stageLink.href = data.linkUrl;
+    if (termTitle) termTitle.textContent = data.title;
+    if (termPrompt) termPrompt.textContent = data.prompt;
+    if (termCmd) termCmd.textContent = data.cmd;
+    if (termArrow) termArrow.textContent = data.arrow;
+    if (termRes) termRes.textContent = data.res;
+    if (termCheck) termCheck.textContent = data.check;
+    if (termVerify) termVerify.textContent = data.verify;
+    if (termCaption) {
+      termCaption.textContent = data.caption;
+      termCaption.style.color = data.captionColor;
+    }
 
-    if (animate && typeof stageCard.animate === 'function') {
+    if (animate && typeof termWindow.animate === 'function') {
       if (currentAnim) currentAnim.cancel();
-      currentAnim = stageCard.animate(
+      currentAnim = termWindow.animate(
         [
-          { opacity: 0.4, transform: 'translate3d(0, 6px, 0)' },
+          { opacity: 0.45, transform: 'translate3d(0, 6px, 0)' },
           { opacity: 1, transform: 'translate3d(0, 0, 0)' }
         ],
         {
-          duration: 240,
+          duration: 220,
           easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
           fill: 'forwards'
         }
@@ -219,10 +218,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Make Services & Deliverables cards (.pillar-card) and Pipeline chips clickable
+  // Pillar card clicks
   const contactSection = document.getElementById('contact');
   document.querySelectorAll('.pillar-card').forEach((card) => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.mini-cta')) return;
       if (contactSection) {
         contactSection.scrollIntoView({ behavior: 'smooth' });
       }
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Smooth Compositor-Only Scroll Reveal (IntersectionObserver)
+  // Smooth Scroll Reveal
   const revealTargets = document.querySelectorAll(
     '.section-header-center, .split-feature-grid, .pillar-card, .cta-block'
   );
