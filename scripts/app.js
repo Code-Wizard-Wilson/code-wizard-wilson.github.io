@@ -1,58 +1,94 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const GH = 'https://github.com/Code-Wizard-Wilson';
+
   const projectStages = {
     tfinder: {
-      bg: '#f9efe8',
-      title: 'tfinder — zsh',
+      bg: '#fce4de',
+      title: 'tf — zsh',
       prompt: '$',
-      cmd: 'tf "find files over 100MB changed this week"',
+      cmd: 'tf why is my Mac slow',
       arrow: '→',
-      res: 'find . -type f -size +100M -mtime -7',
+      res: 'Top processes by CPU · 377  WindowServer  16.8%  121 MiB',
       check: '✓',
-      verify: 'verified: read-only, no side effects',
-      caption: 'Plain English in, verified command out.',
-      captionColor: '#7c4a33',
-      linkUrl: 'https://peerlist.io/wilsonwizard'
+      verify: 'typed action · the model cannot emit shell code',
+      caption: 'Plain English in, a registered action out.',
+      captionColor: '#962d1e',
+      linkLabel: 'Open repository',
+      linkUrl: GH + '/tfinder'
     },
-    tenvilo: {
-      bg: '#eef3fb',
-      title: 'tenvilo — chrome workspace',
-      prompt: '$',
-      cmd: 'tenvilo switch "Payment Service Release"',
+    screenshots: {
+      bg: '#f9efe8',
+      title: 'Screenshot Manager — capture',
+      prompt: '⌘',
+      cmd: 'capture area → annotate → recognize text',
       arrow: '→',
-      res: '5 tabs restored (localhost:3000, Swagger, PR #142)',
+      res: 'text recognized and copied · saved to local library',
       check: '✓',
-      verify: 'focus mode: non-work domains paused',
-      caption: 'One-click presets, zero tab clutter.',
-      captionColor: '#2b4c7e',
-      linkUrl: 'https://peerlist.io/wilsonwizard'
+      verify: 'Apple Vision on-device · no telemetry',
+      caption: 'Native capture, annotation and OCR in one window.',
+      captionColor: '#7c4a33',
+      linkLabel: 'Open repository',
+      linkUrl: GH + '/Mac-Screenshot-Manager'
     },
     notation: {
       bg: '#eef6f1',
-      title: 'notation — system-design.md',
+      title: 'notation — ~/Documents/Notation Data',
       prompt: '>',
-      cmd: '/architecture/resilient-scraping.md',
+      cmd: 'new note "resilient-scraping"',
       arrow: '→',
-      res: 'linked 4 nodes: [[Worker Pools]], [[JA4 Matching]]',
+      res: 'mirrored → Notes/resilient-scraping.md · 2 backlinks linked',
       check: '✓',
-      verify: 'markdown graph synced to local disk',
-      caption: 'Connected markdown notes, local-first.',
+      verify: 'local-first · served on 127.0.0.1 · nothing uploaded',
+      caption: 'Every note is a real Markdown file on your own disk.',
       captionColor: '#225939',
-      linkUrl: 'https://peerlist.io/wilsonwizard'
+      linkLabel: 'Open notation.is-a.dev',
+      linkUrl: 'https://notation.is-a.dev/'
     },
-    fleetdaemon: {
-      bg: '#f7f3e6',
-      title: 'fleetctl — status --live',
+    slopfinder: {
+      bg: '#eef3fb',
+      title: 'slop-finder — side panel',
       prompt: '$',
-      cmd: 'fleetctl ingest --workers=250 --target=api',
+      cmd: 'scan feed --threshold=65',
       arrow: '→',
-      res: '1.8M payloads/day streamed · 38ms median',
+      res: 'style scored locally · strong matches taped · short posts abstained',
       check: '✓',
-      verify: '0 DOM overhead · auto proxy failover',
-      caption: 'Autonomous ingestion engine for production loads.',
+      verify: 'MLX on Apple Silicon · no cloud API call',
+      caption: 'Heuristic style scoring that abstains instead of guessing.',
+      captionColor: '#2b4c7e',
+      linkLabel: 'Open repository',
+      linkUrl: GH + '/slop-finder'
+    },
+    rainy75: {
+      bg: '#f7f3e6',
+      title: 'rainy75 studio — localhost',
+      prompt: '$',
+      cmd: 'stream github-heatmap --rows=5',
+      arrow: '→',
+      res: '83-key RGB framebuffer streaming over the management channel',
+      check: '✓',
+      verify: 'MCUboot test image · revert to stock available',
+      caption: 'Open ZMK firmware with a local macOS control panel.',
       captionColor: '#6d531a',
-      linkUrl: 'https://x.com/WilsonWizard'
+      linkLabel: 'Open repository',
+      linkUrl: GH + '/rainy75-studio'
+    },
+    private: {
+      bg: '#ede7fb',
+      title: 'ingest — production host',
+      prompt: '$',
+      cmd: 'systemctl status ingest@worker',
+      arrow: '→',
+      res: 'active (running) · proxy pool healthy · queue drained',
+      check: '✓',
+      verify: 'closed source · architecture walked through on request',
+      caption: 'Client automation. I can describe the design, not the client.',
+      captionColor: '#4c2896',
+      linkLabel: 'Ask me about it',
+      linkUrl: '#contact'
     }
   };
+
+  const projectOrder = ['tfinder', 'screenshots', 'notation', 'slopfinder', 'rainy75', 'private'];
 
   const stageEl = document.getElementById('project-stage');
   const tabs = document.querySelectorAll('.feature-tab');
@@ -69,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="tdot yellow"></span>
             <span class="tdot green"></span>
           </div>
-          <div class="terminal-title" id="terminal-title">tfinder — zsh</div>
+          <div class="terminal-title" id="terminal-title"></div>
           <div class="terminal-dots-balance" aria-hidden="true"></div>
         </div>
         <div class="terminal-body">
@@ -86,13 +122,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="term-verify-text" id="term-verify"></span>
           </div>
           <div class="term-actions">
-            <button class="term-btn term-btn-primary" type="button" id="term-run-btn">Run</button>
-            <button class="term-btn term-btn-ghost" type="button" id="term-edit-btn">Edit</button>
-            <button class="term-btn term-btn-ghost" type="button" id="term-copy-btn">Copy</button>
+            <a class="term-btn term-btn-primary" id="term-open-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+            <button class="term-btn term-btn-ghost" type="button" id="term-copy-btn">Copy command</button>
           </div>
         </div>
       </div>
-      <p class="terminal-caption" id="terminal-caption">Plain English in, verified command out.</p>
+      <p class="terminal-caption" id="terminal-caption"></p>
     `;
   }
 
@@ -106,37 +141,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const termVerify = document.getElementById('term-verify');
   const termCaption = document.getElementById('terminal-caption');
   const termCopyBtn = document.getElementById('term-copy-btn');
-  const termRunBtn = document.getElementById('term-run-btn');
+  const termOpenLink = document.getElementById('term-open-link');
 
   if (termCopyBtn) {
-    termCopyBtn.addEventListener('click', () => {
-      const textToCopy = termRes ? termRes.textContent : '';
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(textToCopy);
+    termCopyBtn.addEventListener('click', async () => {
+      const text = termCmd ? termCmd.textContent : '';
+      try {
+        await navigator.clipboard.writeText(text);
+        termCopyBtn.textContent = 'Copied';
+      } catch {
+        termCopyBtn.textContent = 'Copy failed';
       }
-      termCopyBtn.textContent = 'Copied!';
       setTimeout(() => {
-        termCopyBtn.textContent = 'Copy';
+        termCopyBtn.textContent = 'Copy command';
       }, 1400);
     });
   }
 
-  if (termRunBtn) {
-    termRunBtn.addEventListener('click', () => {
-      termRunBtn.textContent = 'Running...';
-      setTimeout(() => {
-        termRunBtn.textContent = 'Done ✓';
-        setTimeout(() => {
-          termRunBtn.textContent = 'Run';
-        }, 1200);
-      }, 500);
-    });
-  }
-
   const selectProject = (key, animate = true) => {
-    if (key === activeKey) return;
+    if (!projectStages[key] || key === activeKey) return;
     activeKey = key;
-    const data = projectStages[key] || projectStages.tfinder;
+    const data = projectStages[key];
 
     tabs.forEach((tab) => {
       const isMatch = tab.getAttribute('data-proj') === key;
@@ -154,6 +179,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (termRes) termRes.textContent = data.res;
     if (termCheck) termCheck.textContent = data.check;
     if (termVerify) termVerify.textContent = data.verify;
+
+    if (termOpenLink) {
+      termOpenLink.textContent = data.linkLabel;
+      termOpenLink.setAttribute('href', data.linkUrl);
+      const isAnchor = data.linkUrl.startsWith('#');
+      if (isAnchor) {
+        termOpenLink.removeAttribute('target');
+        termOpenLink.removeAttribute('rel');
+      } else {
+        termOpenLink.setAttribute('target', '_blank');
+        termOpenLink.setAttribute('rel', 'noopener noreferrer');
+      }
+    }
+
     if (termCaption) {
       termCaption.textContent = data.caption;
       termCaption.style.color = data.captionColor;
@@ -190,14 +229,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    if (e.key === '1') selectProject('tfinder', true);
-    if (e.key === '2') selectProject('tenvilo', true);
-    if (e.key === '3') selectProject('notation', true);
-    if (e.key === '4') selectProject('fleetdaemon', true);
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = e.target.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
+    const idx = parseInt(e.key, 10) - 1;
+    if (!Number.isNaN(idx) && projectOrder[idx]) {
+      selectProject(projectOrder[idx], true);
+    }
   });
 
-  // Interactive Pipeline Board Pills (01 Ingestion, 02 Execution, 03 Delivery)
+  // Method board pills (01 Reverse / 02 Execute / 03 Operate)
   const boardPills = document.querySelectorAll('.board-pill');
   const boardCols = document.querySelectorAll('.board-col');
 
@@ -213,70 +254,44 @@ document.addEventListener('DOMContentLoaded', () => {
     pill.addEventListener('mouseenter', () => highlightCol(idx));
     pill.addEventListener('mouseleave', () => highlightCol(null));
     pill.addEventListener('click', () => {
-      const isAlreadyActive = pill.classList.contains('active');
-      highlightCol(isAlreadyActive ? null : idx);
+      highlightCol(pill.classList.contains('active') ? null : idx);
     });
   });
 
-  // Pillar card clicks
-  const contactSection = document.getElementById('contact');
-  document.querySelectorAll('.pillar-card').forEach((card) => {
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('.mini-cta')) return;
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-
-  const workSection = document.getElementById('work');
-  document.querySelectorAll('.board-col .event-chip').forEach((chip, idx) => {
-    chip.addEventListener('click', () => {
-      const projMap = ['fleetdaemon', 'fleetdaemon', 'fleetdaemon', 'fleetdaemon', 'tfinder', 'tenvilo'];
-      selectProject(projMap[idx] || 'tfinder', true);
-      if (workSection) {
-        workSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-
-  // Smooth Scroll Reveal
+  // Smooth scroll reveal
   const revealTargets = document.querySelectorAll(
-    '.section-header-center, .split-feature-grid, .pillar-card, .cta-block'
+    '.section-header-center, .split-feature-grid, .stack-card, .fact-strip, .cta-block'
   );
 
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const el = entry.target;
-            el.classList.add('in-view');
-            el.addEventListener(
-              'transitionend',
-              () => {
-                el.classList.remove('reveal-ready', 'in-view');
-                el.style.transitionDelay = '';
-              },
-              { once: true }
-            );
-            observer.unobserve(el);
-          }
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          el.classList.add('in-view');
+          el.addEventListener(
+            'transitionend',
+            () => {
+              el.classList.remove('reveal-ready', 'in-view');
+              el.style.transitionDelay = '';
+            },
+            { once: true }
+          );
+          observer.unobserve(el);
         });
       },
       { threshold: 0.12, rootMargin: '0px 0px -30px 0px' }
     );
 
     revealTargets.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top > window.innerHeight * 0.92) {
-        if (el.classList.contains('pillar-card')) {
-          const idx = Array.from(el.parentElement.children).indexOf(el);
-          el.style.transitionDelay = `${idx * 70}ms`;
-        }
-        el.classList.add('reveal-ready');
-        observer.observe(el);
+      if (el.getBoundingClientRect().top <= window.innerHeight * 0.92) return;
+      if (el.classList.contains('stack-card')) {
+        const idx = Array.from(el.parentElement.children).indexOf(el);
+        el.style.transitionDelay = `${(idx % 3) * 70}ms`;
       }
+      el.classList.add('reveal-ready');
+      observer.observe(el);
     });
   }
 });

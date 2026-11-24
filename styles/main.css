@@ -238,6 +238,15 @@ ul, ol {
   padding-bottom: 64px;
 }
 
+.hero-kicker {
+  margin-bottom: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--coral);
+}
+
 .hero-title {
   font-size: clamp(44px, 6.2vw, 68px);
   line-height: 1.06;
@@ -261,8 +270,7 @@ ul, ol {
   filter: drop-shadow(0 6px 12px rgba(20, 20, 20, 0.14)) drop-shadow(0 1px 2px rgba(20, 20, 20, 0.08));
 }
 
-.inline-art svg,
-.inline-art .iconly-img {
+.inline-art svg {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -277,21 +285,11 @@ ul, ol {
   transform: translate3d(0, 0, 0) rotate(6deg);
 }
 
-.inline-art.tilt-left-sm {
-  transform: translate3d(0, 0, 0) rotate(-3deg);
-}
 
 .inline-art:hover {
   transform: translate3d(0, -2px, 0) scale(1.14) rotate(0deg);
 }
 
-.inline-handle {
-  color: var(--ink);
-  font-weight: 500;
-  text-decoration: underline;
-  text-decoration-color: var(--ink-15);
-  text-underline-offset: 3px;
-}
 
 .btn-avatar {
   width: 22px;
@@ -380,30 +378,8 @@ ul, ol {
   transform: translate3d(0, 0, 0) scale(0.97);
 }
 
-.btn-pill-light {
-  display: inline-flex;
-  align-items: center;
-  height: 48px;
-  padding: 0 24px;
-  border-radius: 9999px;
-  background-color: var(--ink-06);
-  color: var(--ink);
-  font-size: 15px;
-  font-weight: 600;
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
-  transition: background-color 0.2s ease, transform 0.24s var(--ease-smooth), box-shadow 0.24s var(--ease-smooth);
-}
 
-.btn-pill-light:hover {
-  background-color: var(--ink-10);
-  transform: translate3d(0, -1.5px, 0);
-  box-shadow: 0 8px 16px -8px rgba(20, 20, 20, 0.14);
-}
 
-.btn-pill-light:active {
-  transform: translate3d(0, 0, 0) scale(0.97);
-}
 
 /* ==========================================================================
    SHOWCASE BOARD WINDOW (time.fyi Hero App Frame)
@@ -548,13 +524,6 @@ ul, ol {
 .check-circle.amber { background-color: #d98b1a; }
 .check-circle.purple { background-color: #8b5cf6; }
 
-.open-circle {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 1.5px solid var(--ink-15);
-  flex-shrink: 0;
-}
 
 .color-dot {
   width: 9px;
@@ -590,14 +559,6 @@ ul, ol {
   color: var(--ink);
 }
 
-.board-tag {
-  font-size: 11px;
-  color: #2e9b5f;
-  background-color: #dff2e6;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-weight: 500;
-}
 
 .board-pills {
   display: flex;
@@ -619,9 +580,6 @@ ul, ol {
   flex: 1;
 }
 
-.board-columns.four-cols {
-  grid-template-columns: repeat(4, 1fr);
-}
 
 .board-col {
   border-right: 1px solid var(--ink-06);
@@ -673,9 +631,6 @@ ul, ol {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
   backface-visibility: hidden;
   transform: translate3d(0, 0, 0);
   transition: transform 0.25s var(--ease-smooth), box-shadow 0.25s var(--ease-smooth);
@@ -884,6 +839,22 @@ ul, ol {
   color: var(--ink-60);
 }
 
+.tab-meta {
+  display: block;
+  padding-top: 10px;
+  padding-left: 42px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--ink-45);
+  line-height: 1.4;
+}
+
+.feature-tab.active .tab-meta {
+  color: var(--ink-60);
+}
+
 .tab-link {
   display: none;
   padding-top: 8px;
@@ -967,6 +938,8 @@ ul, ol {
 }
 
 .terminal-body {
+  user-select: text;
+  -webkit-user-select: text;
   padding: 8px 22px 16px 22px;
   display: flex;
   flex-direction: column;
@@ -1027,10 +1000,14 @@ ul, ol {
 }
 
 .term-btn {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 500;
   padding: 7px 14px;
+  white-space: nowrap;
+  text-decoration: none;
   border-radius: 8px;
   cursor: pointer;
   line-height: normal;
@@ -1077,183 +1054,140 @@ ul, ol {
 }
 
 /* ==========================================================================
-   THREE-COLUMN CAPABILITIES GRID (exact time.fyi 3-step layout)
+   FACT STRIP (verifiable numbers, four even columns)
    ========================================================================== */
-.three-col-grid {
+.fact-strip {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background-color: var(--ink-08);
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
-.pillar-card {
-  background-color: #ffffff;
+.fact {
   display: flex;
   flex-direction: column;
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-  transition: background-color 0.22s var(--ease-smooth);
+  gap: 6px;
 }
 
-.pillar-card:hover {
-  background-color: rgba(20, 20, 20, 0.01);
-}
-
-.pillar-top {
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  column-gap: 14px;
-  padding: 28px 32px 24px;
-}
-
-.pillar-num {
-  width: 28px;
-  height: 28px;
-  border-radius: 9999px;
-  background-color: var(--ink);
-  color: #ffffff;
-  font-size: 12px;
+.fact-num {
+  font-size: 34px;
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pillar-title {
-  font-size: 18px;
-  line-height: 28px;
-  font-weight: 600;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.04em;
+  line-height: 1;
   color: var(--ink);
 }
 
-.pillar-desc {
-  margin-top: 4px;
-  font-size: 15px;
+.fact-label {
+  font-size: 14px;
   line-height: 1.5;
   color: var(--ink-60);
 }
 
-.pillar-canvas {
-  min-height: 250px;
-  padding: 32px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: auto;
-}
-
-.mini-card {
-  width: 100%;
-  max-width: 245px;
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 14px;
-  box-shadow: 0px 8px 12px rgba(20, 20, 20, 0.25);
-  border: 1px solid rgba(20, 20, 20, 0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
-  transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
-}
-
-.pillar-card:hover .mini-card {
-  transform: translate3d(0, -3px, 0);
-  box-shadow: 0 12px 24px -6px rgba(20, 20, 20, 0.28);
-}
-
-.pillar-num {
-  transition: background-color 0.22s ease;
-}
-
-.pillar-card:hover .pillar-num {
-  background-color: var(--coral);
-}
-
-.mini-card-header {
-  padding-bottom: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.mini-price {
-  font-family: var(--font-sans);
-  font-size: 22px;
-  font-weight: 600;
-  color: #141414;
-  line-height: normal;
-}
-
-.mini-badge {
-  font-family: var(--font-sans);
-  font-size: 12.5px;
-  font-weight: 400;
-  color: #52525b;
-  line-height: normal;
-}
-
-.mini-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.mini-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 4px;
-  font-size: 12px;
-  line-height: normal;
-}
-
-.mini-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 3px;
-  flex-shrink: 0;
-}
-
-.mini-label {
-  font-size: 12px;
-  color: rgba(20, 20, 20, 0.6);
-  flex: 1;
-}
-
-.mini-status {
-  font-size: 11px;
-  font-weight: 500;
-  color: #15803d;
-  white-space: nowrap;
-}
-
-.mini-divider {
-  height: 1px;
-  background-color: #e4e4e7;
-  width: 100%;
-}
-
-.mini-cta {
-  font-family: var(--font-sans);
+.fact-label em {
+  font-style: normal;
   font-size: 13px;
-  font-weight: 500;
-  color: #c2410c;
+  color: var(--ink-45);
+}
+
+/* ==========================================================================
+   STACK & SKILLS GRID
+   ========================================================================== */
+.stack-grid-wrap {
+  padding-top: 8px;
+  padding-bottom: 72px;
+}
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background-color: var(--ink-08);
+  border: 1px solid var(--ink-08);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.stack-card {
+  background-color: var(--bg);
+  padding: 26px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: background-color 0.25s var(--ease-smooth);
+}
+
+.stack-card:hover {
+  background-color: rgba(20, 20, 20, 0.015);
+}
+
+.stack-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stack-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background-color: var(--tint, #f4f4f5);
+  color: var(--tint-ink, var(--ink));
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--ink-08);
+}
+
+.stack-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.skill-chip {
   display: inline-flex;
   align-items: center;
-  text-decoration: none;
-  line-height: normal;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  padding: 5px 10px;
+  border: 1px solid var(--ink-10);
+  border-radius: 7px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ink-60);
+  background-color: var(--bg);
+  max-width: 100%;
+  transition: border-color 0.2s var(--ease-smooth), color 0.2s var(--ease-smooth);
 }
 
-.mini-cta:hover {
-  opacity: 0.85;
-  transform: translate3d(2px, 0, 0);
+.skill-chip:hover {
+  border-color: var(--ink-35);
+  color: var(--ink);
 }
 
+.skill-chip.is-core {
+  border-color: rgba(232, 96, 76, 0.35);
+  background-color: rgba(232, 96, 76, 0.06);
+  color: #a8341f;
+  font-weight: 500;
+}
+
+.skill-chip.is-core:hover {
+  border-color: var(--coral);
+  color: #8d2a17;
+}
 /* ==========================================================================
    BOTTOM CTA & FOOTER (exact time.fyi closing layout)
    ========================================================================== */
@@ -1271,6 +1205,14 @@ ul, ol {
   margin-bottom: 18px;
   border: 1.5px solid var(--ink-12);
   box-shadow: 0 8px 20px -6px rgba(20, 20, 20, 0.18);
+}
+
+.cta-note {
+  margin-top: 24px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--ink-45);
 }
 
 .cta-buttons {
@@ -1352,9 +1294,26 @@ ul, ol {
 
   .app-body,
   .board-columns,
-  .split-feature-grid,
-  .three-col-grid {
+  .split-feature-grid {
     grid-template-columns: 1fr;
+  }
+
+  .stack-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .fact-strip {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 24px;
+  }
+
+  .fact-num {
+    font-size: 28px;
+  }
+
+  .feature-stage {
+    padding: 32px 24px;
+    min-height: 0;
   }
 
   .app-sidebar {
@@ -1368,8 +1327,13 @@ ul, ol {
 }
 
 @media (max-width: 560px) {
-  .footer-grid {
+  .footer-grid,
+  .stack-grid {
     grid-template-columns: 1fr;
+  }
+
+  .stack-grid {
+    border-radius: 12px;
   }
 }
 
@@ -1397,6 +1361,10 @@ ul, ol {
 
 .hero-actions {
   animation: heroFadeUp 0.5s var(--ease-smooth) 0.12s both;
+}
+
+.hero-kicker {
+  animation: heroFadeUp 0.5s var(--ease-smooth) both;
 }
 
 .showcase-section {
